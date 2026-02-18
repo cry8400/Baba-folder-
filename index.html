@@ -1,0 +1,122 @@
+<!DOCTYPE html><html>
+<head>
+  <title>BABA FOLDER - Premium Mobile Display Shop</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial; margin:0; background:#0f172a; color:white; }
+    header { background:#111827; padding:20px; text-align:center; font-size:24px; font-weight:bold; }
+    .container { padding:20px; }
+    input { padding:10px; width:100%; max-width:400px; margin:10px 0; border-radius:8px; border:none; }
+    .brands { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin:15px 0; }
+    .brand-btn { padding:8px 15px; border:none; border-radius:20px; cursor:pointer; background:#1f2937; color:white; }
+    .brand-btn:hover { background:#2563eb; }
+    .card { background:#1e293b; padding:15px; margin:10px auto; max-width:400px; border-radius:15px; box-shadow:0 0 15px rgba(0,0,0,0.3); }
+    .available { color:#22c55e; font-weight:bold; }
+    .notavailable { color:#ef4444; font-weight:bold; }
+    button { padding:8px 15px; border:none; border-radius:8px; cursor:pointer; margin-top:8px; }
+    .whatsapp { background:#25D366; color:white; }
+    .adminbtn { background:#2563eb; color:white; }
+    .admin-panel { background:#1e293b; padding:15px; margin:15px auto; max-width:400px; border-radius:15px; }
+    footer { text-align:center; padding:20px; background:#111827; margin-top:30px; }
+  </style>
+</head>
+<body><header>📱 BABA FOLDER</header><div class="container"><input type="text" id="search" placeholder="Search Mobile Model..." onkeyup="searchModel()"><div class="brands">
+  <button class="brand-btn" onclick="filterBrand('All')">All</button>
+  <button class="brand-btn" onclick="filterBrand('Samsung')">Samsung</button>
+  <button class="brand-btn" onclick="filterBrand('Vivo')">Vivo</button>
+  <button class="brand-btn" onclick="filterBrand('Oppo')">Oppo</button>
+  <button class="brand-btn" onclick="filterBrand('Realme')">Realme</button>
+  <button class="brand-btn" onclick="filterBrand('iPhone')">iPhone</button>
+  <button class="brand-btn" onclick="filterBrand('Motorola')">Motorola</button>
+  <button class="brand-btn" onclick="filterBrand('Infinix')">Infinix</button>
+  <button class="brand-btn" onclick="filterBrand('Redmi')">Redmi</button>
+</div><button class="adminbtn" onclick="showAdminLogin()">Admin Login</button>
+
+<div id="adminLogin" style="display:none;">
+  <input type="password" id="adminPass" placeholder="Enter Admin Password">
+  <button onclick="loginAdmin()">Login</button>
+</div><div id="adminPanel" class="admin-panel" style="display:none;">
+  <h3>Add New Display</h3>
+  <input type="text" id="brand" placeholder="Brand">
+  <input type="text" id="model" placeholder="Model">
+  <input type="number" id="price" placeholder="Price">
+  <label><input type="checkbox" id="available" checked> Available</label><br>
+  <button onclick="addPhone()">Add Display</button>
+  <button onclick="logoutAdmin()">Logout</button>
+</div><div id="results"></div></div><footer>📞 Contact: 8869919326</footer><script>
+const ADMIN_PASSWORD = "1234";
+let currentBrand = "All";
+
+let phoneData = JSON.parse(localStorage.getItem("phoneData")) || [
+  { brand:"Samsung", model:"Galaxy A12", price:1200, available:true },
+  { brand:"Vivo", model:"Y20", price:1300, available:true },
+  { brand:"Oppo", model:"A15", price:1250, available:true },
+  { brand:"Realme", model:"C25", price:1400, available:true },
+  { brand:"iPhone", model:"11", price:4500, available:false },
+  { brand:"Motorola", model:"G40", price:1600, available:true },
+  { brand:"Infinix", model:"Hot 10", price:1100, available:true },
+  { brand:"Redmi", model:"Note 10", price:1500, available:true }
+];
+
+function saveData(){ localStorage.setItem("phoneData", JSON.stringify(phoneData)); }
+
+function filterBrand(brand){ currentBrand = brand; searchModel(); }
+
+function searchModel(){
+  const search = document.getElementById("search").value.toLowerCase();
+  const results = document.getElementById("results");
+  results.innerHTML = "";
+
+  const filtered = phoneData.filter(p =>
+    (currentBrand === "All" || p.brand === currentBrand) &&
+    (p.brand + " " + p.model).toLowerCase().includes(search)
+  );
+
+  if(filtered.length === 0){ results.innerHTML = "<p>No display found.</p>"; return; }
+
+  filtered.forEach((p,index)=>{
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <h3>${p.brand} ${p.model}</h3>
+      <p>Price: ₹${p.price}</p>
+      <p class="${p.available ? 'available':'notavailable'}">
+        ${p.available ? 'Available':'Not Available'}
+      </p>
+      <button class="whatsapp" onclick="orderNow('${p.brand} ${p.model}')">Order on WhatsApp</button>
+    `;
+    results.appendChild(card);
+  });
+}
+
+function orderNow(model){
+  const url = `https://wa.me/918869919326?text=Hello BABA FOLDER, I want display for ${model}`;
+  window.open(url,"_blank");
+}
+
+function showAdminLogin(){ document.getElementById("adminLogin").style.display="block"; }
+
+function loginAdmin(){
+  const pass = document.getElementById("adminPass").value;
+  if(pass === ADMIN_PASSWORD){
+    document.getElementById("adminPanel").style.display="block";
+    document.getElementById("adminLogin").style.display="none";
+  } else { alert("Wrong Password"); }
+}
+
+function logoutAdmin(){ document.getElementById("adminPanel").style.display="none"; }
+
+function addPhone(){
+  const brand=document.getElementById("brand").value;
+  const model=document.getElementById("model").value;
+  const price=document.getElementById("price").value;
+  const available=document.getElementById("available").checked;
+  if(!brand||!model||!price) return;
+  phoneData.push({brand,model,price,available});
+  saveData();
+  searchModel();
+}
+
+searchModel();
+</script></body>
+</html>
