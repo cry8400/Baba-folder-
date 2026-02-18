@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BABA FOLDER - Mobile Display Shop</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      color: #111;
+    }
+    input {
+      padding: 10px;
+      width: 80%;
+      max-width: 300px;
+      margin: 10px 0;
+    }
+    .card {
+      background: white;
+      padding: 15px;
+      margin: 10px auto;
+      width: 90%;
+      max-width: 400px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .available {
+      color: green;
+      font-weight: bold;
+    }
+    .notavailable {
+      color: red;
+      font-weight: bold;
+    }
+    button {
+      padding: 8px 15px;
+      background: #25D366;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📱 BABA FOLDER</h1>
+  <p>Mobile Display Available Checker</p>
+
+  <input type="text" id="search" placeholder="Search Mobile Model..." onkeyup="searchModel()">
+
+  <div id="results"></div>
+
+  <script>
+    const phoneData = [
+      { brand: "Samsung", model: "Galaxy A12", price: 1200, available: true },
+      { brand: "Xiaomi", model: "Redmi Note 10", price: 1500, available: true },
+      { brand: "Vivo", model: "Y20", price: 1300, available: false },
+      { brand: "Oppo", model: "A15", price: 1250, available: true }
+    ];
+
+    function searchModel() {
+      const search = document.getElementById("search").value.toLowerCase();
+      const resultsDiv = document.getElementById("results");
+      resultsDiv.innerHTML = "";
+
+      const filtered = phoneData.filter(phone =>
+        (phone.brand + " " + phone.model).toLowerCase().includes(search)
+      );
+
+      if (filtered.length === 0) {
+        resultsDiv.innerHTML = "<p>No display found for this model.</p>";
+        return;
+      }
+
+      filtered.forEach(phone => {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        card.innerHTML = `
+          <h3>${phone.brand} ${phone.model}</h3>
+          <p>Price: ₹${phone.price}</p>
+          <p class="${phone.available ? 'available' : 'notavailable'}">
+            ${phone.available ? 'Available' : 'Not Available'}
+          </p>
+          <button onclick="orderNow('${phone.brand} ${phone.model}')">
+            Order on WhatsApp
+          </button>
+        `;
+
+        resultsDiv.appendChild(card);
+      });
+    }
+
+    function orderNow(model) {
+      const url = `https://wa.me/918869919326?text=Hello BABA FOLDER, I want display for ${model}`;
+      window.open(url, "_blank");
+    }
+
+    searchModel();
+  </script>
+
+  <p style="margin-top:30px;">📞 Contact: 8869919326</p>
+
+</body>
+</html>
