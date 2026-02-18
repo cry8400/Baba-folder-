@@ -1,0 +1,135 @@
+<!DOCTYPE html><html>
+<head>
+  <title>BABA FOLDER - Mobile Display Shop</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial; background:#f2f2f2; text-align:center; padding:20px; }
+    h1 { margin-bottom:5px; }
+    input { padding:8px; margin:5px; width:90%; max-width:300px; }
+    button { padding:8px 15px; margin:5px; border:none; border-radius:5px; cursor:pointer; }
+    .whatsapp { background:#25D366; color:white; }
+    .adminbtn { background:#111; color:white; }
+    .card { background:white; padding:15px; margin:10px auto; width:95%; max-width:400px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1); }
+    .available { color:green; font-weight:bold; }
+    .notavailable { color:red; font-weight:bold; }
+    .admin-panel { background:white; padding:15px; margin:15px auto; max-width:400px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1); }
+  </style>
+</head>
+<body><h1>📱 BABA FOLDER</h1>
+<p>Mobile Display Available Checker</p><input type="text" id="search" placeholder="Search Mobile Model..." onkeyup="searchModel()">
+<br>
+<button class="adminbtn" onclick="showAdminLogin()">Admin Login</button><div id="adminLogin" style="display:none;">
+  <input type="password" id="adminPass" placeholder="Enter Admin Password">
+  <button onclick="loginAdmin()">Login</button>
+</div><div id="adminPanel" class="admin-panel" style="display:none;">
+  <h3>Admin Panel</h3>
+  <input type="text" id="brand" placeholder="Brand">
+  <input type="text" id="model" placeholder="Model">
+  <input type="number" id="price" placeholder="Price">
+  <label>
+    <input type="checkbox" id="available" checked> Available
+  </label>
+  <br>
+  <button onclick="addPhone()">Add Display</button>
+  <button onclick="logoutAdmin()">Logout</button>
+</div><div id="results"></div><p style="margin-top:30px;">📞 Contact: 8869919326</p><script>
+
+const ADMIN_PASSWORD = "1234";
+
+let phoneData = JSON.parse(localStorage.getItem("phoneData")) || [
+  { brand:"Samsung", model:"Galaxy A12", price:1200, available:true },
+  { brand:"Xiaomi", model:"Redmi Note 10", price:1500, available:true }
+];
+
+function saveData() {
+  localStorage.setItem("phoneData", JSON.stringify(phoneData));
+}
+
+function searchModel() {
+  const search = document.getElementById("search").value.toLowerCase();
+  const results = document.getElementById("results");
+  results.innerHTML = "";
+
+  const filtered = phoneData.filter(p =>
+    (p.brand + " " + p.model).toLowerCase().includes(search)
+  );
+
+  if(filtered.length === 0){
+    results.innerHTML = "<p>No display found for this model.</p>";
+    return;
+  }
+
+  filtered.forEach((p,index)=>{
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <h3>${p.brand} ${p.model}</h3>
+      <p>Price: ₹${p.price}</p>
+      <p class="${p.available ? 'available' : 'notavailable'}">
+        ${p.available ? 'Available' : 'Not Available'}
+      </p>
+      <button class="whatsapp" onclick="orderNow('${p.brand} ${p.model}')">Order on WhatsApp</button>
+      <br>
+      <button onclick="toggleAvailability(${index})">Toggle</button>
+      <button onclick="deletePhone(${index})">Delete</button>
+    `;
+    results.appendChild(card);
+  });
+}
+
+function orderNow(model){
+  const url = `https://wa.me/918869919326?text=Hello BABA FOLDER, I want display for ${model}`;
+  window.open(url,"_blank");
+}
+
+function showAdminLogin(){
+  document.getElementById("adminLogin").style.display="block";
+}
+
+function loginAdmin(){
+  const pass = document.getElementById("adminPass").value;
+  if(pass === ADMIN_PASSWORD){
+    document.getElementById("adminPanel").style.display="block";
+    document.getElementById("adminLogin").style.display="none";
+  } else {
+    alert("Wrong Password");
+  }
+}
+
+function logoutAdmin(){
+  document.getElementById("adminPanel").style.display="none";
+}
+
+function addPhone(){
+  const brand = document.getElementById("brand").value;
+  const model = document.getElementById("model").value;
+  const price = document.getElementById("price").value;
+  const available = document.getElementById("available").checked;
+
+  if(!brand || !model || !price) return;
+
+  phoneData.push({ brand, model, price, available });
+  saveData();
+  searchModel();
+
+  document.getElementById("brand").value="";
+  document.getElementById("model").value="";
+  document.getElementById("price").value="";
+}
+
+function toggleAvailability(index){
+  phoneData[index].available = !phoneData[index].available;
+  saveData();
+  searchModel();
+}
+
+function deletePhone(index){
+  phoneData.splice(index,1);
+  saveData();
+  searchModel();
+}
+
+searchModel();
+
+</script></body>
+</html>
