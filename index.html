@@ -1,0 +1,137 @@
+<!DOCTYPE html><html>
+<head>
+  <title>BABA FOLDER - Premium Store</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+    body{background:#0f172a;color:white}
+    header{background:linear-gradient(135deg,#1e3a8a,#06b6d4);padding:30px;text-align:center}
+    .logo{font-size:30px;font-weight:700}
+    .container{max-width:1200px;margin:auto;padding:20px}
+    .categories{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}
+    .cat{background:#1e293b;padding:10px 15px;border-radius:8px;cursor:pointer}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+    .card{background:#1e293b;padding:15px;border-radius:12px}
+    .card img{width:100%;height:140px;object-fit:cover;border-radius:8px}
+    .price{color:#22d3ee;font-weight:600;margin:5px 0}
+    .btn{background:#25D366;color:white;padding:8px;border:none;border-radius:6px;width:100%;cursor:pointer}
+    footer{text-align:center;padding:20px;background:#111827;margin-top:40px}
+  </style>
+</head>
+<body><header>
+  <div class="logo">BABA FOLDER</div>
+</header><div class="container">
+  <h2>Categories</h2>
+  <div class="categories" id="categoryList"></div>  <h2 style="margin-top:30px">Products</h2>
+  <div class="grid" id="productGrid"></div>
+</div><footer>© 2026 BABA FOLDER</footer><!-- Hidden Admin --><div id="adminModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);align-items:center;justify-content:center;z-index:9999;">
+  <div style="background:#1e293b;padding:20px;border-radius:12px;width:95%;max-width:400px;max-height:90vh;overflow:auto">
+    <h3>Admin Login</h3>
+    <input type="password" id="adminPass" placeholder="Password" style="width:100%;padding:8px;margin:8px 0;border:none;border-radius:6px">
+    <button onclick="checkLogin()" style="width:100%;padding:8px;background:#22d3ee;border:none;border-radius:6px">Login</button><div id="adminPanel" style="display:none;margin-top:15px">
+  <h4>Add Category</h4>
+  <input id="newCategory" placeholder="Category Name" style="width:100%;padding:8px;margin:5px 0;border:none;border-radius:6px">
+  <button onclick="addCategory()" style="width:100%;padding:8px;background:#25D366;border:none;border-radius:6px">Add Category</button>
+
+  <hr style="margin:15px 0">
+
+  <h4>Add Product</h4>
+  <input id="pname" placeholder="Product Name" style="width:100%;padding:8px;margin:5px 0;border:none;border-radius:6px">
+  <input id="pprice" placeholder="Price" style="width:100%;padding:8px;margin:5px 0;border:none;border-radius:6px">
+  <select id="pcategory" style="width:100%;padding:8px;margin:5px 0;border:none;border-radius:6px"></select>
+  <input type="file" id="pimage" accept="image/*" capture="environment" style="width:100%;margin:5px 0">
+  <button onclick="addProduct()" style="width:100%;padding:8px;background:#25D366;border:none;border-radius:6px">Add Product</button>
+</div>
+
+<button onclick="closeAdmin()" style="width:100%;padding:8px;background:#ef4444;border:none;border-radius:6px;margin-top:10px">Close</button>
+
+  </div>
+</div><script>
+let categories=JSON.parse(localStorage.getItem("categories"))||["Mobile Display"];
+let products=JSON.parse(localStorage.getItem("products"))||[];
+
+function saveData(){
+  localStorage.setItem("categories",JSON.stringify(categories));
+  localStorage.setItem("products",JSON.stringify(products));
+}
+
+function renderCategories(){
+  let list=document.getElementById("categoryList");
+  let select=document.getElementById("pcategory");
+  list.innerHTML="";
+  select.innerHTML="";
+  categories.forEach(cat=>{
+    list.innerHTML+=`<div class='cat'>${cat}</div>`;
+    select.innerHTML+=`<option value='${cat}'>${cat}</option>`;
+  });
+}
+
+function renderProducts(){
+  let grid=document.getElementById("productGrid");
+  grid.innerHTML="";
+  products.forEach(p=>{
+    grid.innerHTML+=`
+      <div class='card'>
+        <img src='${p.image}'>
+        <h4>${p.name}</h4>
+        <div>${p.category}</div>
+        <div class='price'>₹${p.price}</div>
+        <button class='btn' onclick="orderNow('${p.name}')">Order</button>
+      </div>`;
+  });
+}
+
+function addCategory(){
+  let cat=document.getElementById("newCategory").value;
+  if(!cat)return alert("Enter category");
+  categories.push(cat);
+  saveData();
+  renderCategories();
+  alert("Category Added");
+}
+
+function addProduct(){
+  let name=document.getElementById("pname").value;
+  let price=document.getElementById("pprice").value;
+  let category=document.getElementById("pcategory").value;
+  let file=document.getElementById("pimage").files[0];
+  if(!name||!price||!file)return alert("Fill all fields");
+  let reader=new FileReader();
+  reader.onload=function(e){
+    products.push({name,price,category,image:e.target.result});
+    saveData();
+    renderProducts();
+    alert("Product Added");
+  }
+  reader.readAsDataURL(file);
+}
+
+function orderNow(name){
+  window.open(`https://wa.me/918869919326?text=Hello BABA FOLDER, I want ${name}`,'_blank');
+}
+
+function checkLogin(){
+  if(document.getElementById("adminPass").value==="Baba@123"){
+    document.getElementById("adminPanel").style.display="block";
+  }else alert("Wrong Password");
+}
+
+function closeAdmin(){
+  document.getElementById("adminModal").style.display="none";
+}
+
+let clickCount=0;
+document.querySelector("footer").addEventListener("click",()=>{
+  clickCount++;
+  if(clickCount===5){
+    document.getElementById("adminModal").style.display="flex";
+    clickCount=0;
+  }
+  setTimeout(()=>{clickCount=0},2000);
+});
+
+renderCategories();
+renderProducts();
+</script></body>
+  </html>
