@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Saniya ❤️</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<audio id="bgMusic" src="music.mp3" loop></audio>
+
+<!-- Envelope -->
+<div class="section active" id="envelopeSection">
+    <div class="envelope" onclick="openEnvelope()">
+        <div class="flap"></div>
+        <div class="letter">Tap To Open 💌</div>
+    </div>
+</div>
+
+<!-- Memories -->
+<div class="section" id="memoriesSection">
+    <h1>Our Memories ❤️</h1>
+    <div class="gallery">
+        <img src="photo1.jpg">
+        <img src="photo2.jpg">
+        <img src="photo3.jpg">
+        <img src="photo4.jpg">
+        <img src="photo5.jpg">
+        <img src="photo6.jpg">
+    </div>
+    <button onclick="nextSection('letterSection')">Next</button>
+</div>
+
+<!-- Letter -->
+<div class="section" id="letterSection">
+<h1>My Letter 💌</h1>
+<p>
+Your presence in my life has been a gift beyond words. You’ve taught me so much about love, trust, and vulnerability. With you, I’m learning what it means to truly give myself to someone, not out of need, but out of a genuine desire to make you feel valued, loved, and enough—because you are. I feel lucky to be the one who gets to remind you of that every day.
+<br><br>
+I understand that life can sometimes get overwhelming, and I know you may feel uncertain or doubt yourself. But through it all, I’m here, wholeheartedly, to stand by you. I want to be someone you can lean on, someone who loves you exactly as you are, even when things feel difficult. I want to be a safe place where you never have to question if you’re enough, because, to me, you always are.
+</p>
+<button onclick="nextSection('whySection')">Next</button>
+</div>
+
+<!-- Why -->
+<div class="section" id="whySection">
+<h1>Why I Love You ❤️</h1>
+<ul>
+<li>Your smile</li>
+<li>Your caring heart</li>
+<li>Your understanding nature</li>
+<li>Your strength</li>
+<li>Your honesty</li>
+<li>Because you are YOU, Saniya ❤️</li>
+</ul>
+<button onclick="nextSection('proposalSection')">Next</button>
+</div>
+
+<!-- Proposal -->
+<div class="section" id="proposalSection">
+<h1>Saniya 💍</h1>
+<p>Will You Be My Forever?</p>
+<div class="buttons">
+<button onclick="yesClicked()">Yes 💖</button>
+<button id="noBtn" onmouseover="moveButton()">No 😜</button>
+</div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
