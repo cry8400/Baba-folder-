@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Forever ❤️‍🔥</title>
+
+<style>
+body{
+  margin:0;
+  font-family:sans-serif;
+  background:#0f0f1a;
+  color:white;
+  text-align:center;
+  overflow-x:hidden;
+}
+
+h1{
+  margin-top:30px;
+  font-size:28px;
+}
+
+.typewriter{
+  width:90%;
+  margin:20px auto;
+  font-size:16px;
+  border-right:2px solid pink;
+  white-space:pre-wrap;
+  overflow:hidden;
+}
+
+/* Memories */
+.memories{
+  margin:30px 0;
+}
+
+.slider{
+  display:flex;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+}
+
+.slide{
+  min-width:80%;
+  margin:0 10%;
+  scroll-snap-align:center;
+}
+
+.slide img{
+  width:100%;
+  height:300px;
+  object-fit:cover;
+  border-radius:15px;
+}
+
+/* Date Plan */
+.date-plan{
+  margin:30px 0;
+}
+
+.option{
+  display:inline-block;
+  padding:10px 15px;
+  margin:5px;
+  border:1px solid pink;
+  border-radius:20px;
+  cursor:pointer;
+}
+
+.option.active{
+  background:pink;
+  color:black;
+}
+
+/* Proposal */
+.proposal{
+  margin:40px 0;
+}
+
+button{
+  padding:10px 20px;
+  margin:10px;
+  border:none;
+  border-radius:20px;
+  font-size:16px;
+}
+
+.yesBtn{background:#ff4d6d;color:white;}
+.noBtn{background:gray;color:white;position:relative;}
+</style>
+</head>
+<body>
+
+<h1>For My Forever ❤️‍🔥</h1>
+<h2>Murgi 🐥</h2>
+
+<div class="typewriter" id="typeText"></div>
+
+<!-- Memories -->
+<div class="memories">
+<h2>Our Memories ❤️</h2>
+<div class="slider">
+  <!-- 10 Photos -->
+  <div class="slide"><img src="photo1.jpg"></div>
+  <div class="slide"><img src="photo2.jpg"></div>
+  <div class="slide"><img src="photo3.jpg"></div>
+  <div class="slide"><img src="photo4.jpg"></div>
+</div>
+
+<!-- Date Plan -->
+<div class="date-plan">
+<h2>Choose Our Date ❤️</h2>
+<div class="option">🎬 Movie</div>
+<div class="option">🍽 Restaurant</div>
+<div class="option">💀 Ghop Ghop</div>
+</div>
+
+<!-- Proposal -->
+<div class="proposal">
+<h2>Will You Be My Wife? 💍</h2>
+<button class="yesBtn" id="yesBtn">Yes ❤️</button>
+<button class="noBtn" id="noBtn">No 😭</button>
+</div>
+
+<audio id="bgMusic" src="song.mp3" loop></audio>
+
+<script>
+
+/* TYPEWRITER */
+const text = `My love, in a world of billions, my heart chose you.
+I didn’t believe in soulmates until the day I met you.
+You have seen my worst and gave me your best.
+Thank you for being my sunshine.
+I promise to love you more every single day.`;
+
+let i=0;
+function typing(){
+  if(i<text.length){
+    document.getElementById("typeText").innerHTML+=text.charAt(i);
+    i++;
+    setTimeout(typing,40);
+  }
+}
+typing();
+
+/* Date plan highlight */
+document.querySelectorAll(".option").forEach(btn=>{
+  btn.addEventListener("click",function(){
+    document.querySelectorAll(".option").forEach(o=>o.classList.remove("active"));
+    this.classList.add("active");
+  });
+});
+
+/* Proposal effects */
+const noBtn=document.getElementById("noBtn");
+const yesBtn=document.getElementById("yesBtn");
+const music=document.getElementById("bgMusic");
+
+/* Music start on first interaction */
+document.body.addEventListener("click",()=>{
+  music.play();
+},{once:true});
+
+/* No run */
+function moveNo(){
+  const x=Math.random()*(window.innerWidth-100);
+  const y=Math.random()*(window.innerHeight-50);
+  noBtn.style.position="fixed";
+  noBtn.style.left=x+"px";
+  noBtn.style.top=y+"px";
+}
+noBtn.addEventListener("touchstart",moveNo);
+noBtn.addEventListener("mouseover",moveNo);
+noBtn.addEventListener("click",e=>{
+  e.preventDefault();
+  moveNo();
+});
+
+/* Yes follow */
+document.addEventListener("mousemove",e=>{
+  yesBtn.style.position="fixed";
+  yesBtn.style.left=(e.clientX-40)+"px";
+  yesBtn.style.top=(e.clientY-20)+"px";
+});
+document.addEventListener("touchmove",e=>{
+  yesBtn.style.position="fixed";
+  yesBtn.style.left=(e.touches[0].clientX-40)+"px";
+  yesBtn.style.top=(e.touches[0].clientY-20)+"px";
+});
+
+/* Heart Rain */
+function heartRain(){
+  setInterval(()=>{
+    const heart=document.createElement("div");
+    heart.innerHTML="💖";
+    heart.style.position="fixed";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.top="-10px";
+    heart.style.fontSize="20px";
+    heart.style.animation="fall 3s linear";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),3000);
+  },300);
+}
+heartRain();
+
+const style=document.createElement("style");
+style.innerHTML=`
+@keyframes fall{
+to{transform:translateY(100vh);opacity:0;}
+}`;
+document.head.appendChild(style);
+
+</script>
+
+</body>
+</html>
