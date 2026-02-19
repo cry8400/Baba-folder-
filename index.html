@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Saniya ❤️</title>
+<style>
+body{
+margin:0;
+padding:0;
+font-family: 'Poppins', sans-serif;
+background:black;
+color:white;
+text-align:center;
+}
+
+.section{
+display:none;
+padding:20px;
+}
+
+.active{
+display:block;
+}
+
+button{
+padding:12px 25px;
+margin:10px;
+border:none;
+border-radius:25px;
+background:#ff2e63;
+color:white;
+font-size:16px;
+}
+
+img{
+width:90%;
+border-radius:15px;
+margin:10px 0;
+}
+
+h1{
+color:#ff2e63;
+}
+</style>
+</head>
+
+<body>
+
+<div id="home" class="section active">
+<h1>Hey Saniya ❤️</h1>
+<p>Be My Forever 💍</p>
+<button onclick="next('memories')">Open Your Gift 🎁</button>
+</div>
+
+<div id="memories" class="section">
+<h1>Our Memories 📸</h1>
+<img src="photo1.jpg">
+<img src="photo2.jpg">
+<img src="photo3.jpg">
+<img src="photo4.jpg">
+<img src="photo5.jpg">
+<img src="photo6.jpg">
+<button onclick="next('letter')">Next ➡</button>
+</div>
+
+<div id="letter" class="section">
+<h1>My Letter 💌</h1>
+<p>
+Your presence in my life has been a gift beyond words. You’ve taught me so much about love, trust, and vulnerability. With you, I’m learning what it means to truly give myself to someone, not out of need, but out of a genuine desire to make you feel valued, loved, and enough—because you are. I feel lucky to be the one who gets to remind you of that every day.
+<br><br>
+I understand that life can sometimes get overwhelming, and I know you may feel uncertain or doubt yourself. But through it all, I’m here, wholeheartedly, to stand by you. I want to be someone you can lean on, someone who loves you exactly as you are, even when things feel difficult. I want to be a safe place where you never have to question if you’re enough, because, to me, you always are.
+</p>
+<button onclick="next('why')">Next ➡</button>
+</div>
+
+<div id="why" class="section">
+<h1>Why I Love You ❤️</h1>
+<p>
+I love your smile. <br>
+I love your caring heart. <br>
+I love the way you understand me. <br>
+I love your strength. <br>
+I love your honesty. <br>
+And I love you for being YOU, Saniya. ❤️
+</p>
+<button onclick="next('proposal')">Next ➡</button>
+</div>
+
+<div id="proposal" class="section">
+<h1>Saniya 💍</h1>
+<p>Will You Be My Forever? ❤️</p>
+<button onclick="alert('I Love You Saniya ❤️ - Priyanshu')">YES 💖</button>
+</div>
+
+<script>
+function next(id){
+document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+}
+</script>
+
+</body>
+</html>
