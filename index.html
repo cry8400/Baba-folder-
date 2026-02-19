@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Forever ❤️‍🔥</title>
+
+<style>
+body{
+margin:0;
+background:#111;
+color:white;
+font-family:Arial;
+text-align:center;
+}
+
+.screen{
+display:none;
+padding:40px 20px;
+min-height:100vh;
+}
+
+.screen.active{
+display:block;
+}
+
+button{
+padding:12px 20px;
+margin:10px;
+border:none;
+border-radius:20px;
+font-size:16px;
+background:#333;
+color:white;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Welcome -->
+<div class="screen active" id="s0">
+<h1>For My Forever ❤️‍🔥</h1>
+<button onclick="next(1)">Start</button>
+</div>
+
+<!-- Q1 -->
+<div class="screen" id="s1">
+<h2>kya tum mujhse pyar krti ho?</h2>
+<button onclick="next(2)">Yes</button>
+<button onclick="next(2)">haa</button>
+<button onclick="next(2)">jii</button>
+<button onclick="next(2)">bilkul</button>
+</div>
+
+<!-- Q2 -->
+<div class="screen" id="s2">
+<h2>Babu 5 photo bhej dena 😁</h2>
+<button onclick="next(3)">yes ❤️‍🔥</button>
+<button onclick="next(3)">no🥺</button>
+</div>
+
+<!-- Q3 -->
+<div class="screen" id="s3">
+<h2>apko kya psnd hai?</h2>
+<button onclick="next(4)">Chocolate</button>
+<button onclick="next(4)">earing</button>
+<button onclick="next(4)">bangles</button>
+<button onclick="next(4)">kapda</button>
+</div>
+
+<!-- Q4 -->
+<div class="screen" id="s4">
+<h2>chlo chlte hai 😁💦</h2>
+<button onclick="next(5)">yes</button>
+<button onclick="next(5)">haa</button>
+<button onclick="next(5)">jii</button>
+<button onclick="next(5)">ekdum</button>
+</div>
+
+<!-- Memories -->
+<div class="screen" id="s5">
+<h2>Our Memories ❤️</h2>
+<p>You Are My Forever ❤️‍🔥</p>
+</div>
+
+<script>
+function next(num){
+document.querySelector(".active").classList.remove("active");
+document.getElementById("s"+num).classList.add("active");
+}
+</script>
+
+</body>
+</html>
