@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Forever ❤️‍🔥</title>
+
+<style>
+body{
+margin:0;
+background:#111;
+color:white;
+font-family:Arial;
+text-align:center;
+overflow:hidden;
+}
+
+.screen{
+display:none;
+padding:40px 20px;
+min-height:100vh;
+}
+
+.screen.active{
+display:block;
+animation:fade 0.5s ease;
+}
+
+@keyframes fade{
+from{opacity:0; transform:translateY(20px);}
+to{opacity:1; transform:translateY(0);}
+}
+
+button{
+padding:12px 18px;
+margin:10px;
+border:none;
+border-radius:20px;
+font-size:16px;
+cursor:pointer;
+}
+
+.option{
+background:#222;
+color:white;
+}
+
+.option.selected{
+background:#ff2e63;
+}
+
+.noBtn{
+background:#ff1744;
+color:white;
+position:absolute;
+}
+
+.memories img{
+width:90%;
+margin:10px 0;
+border-radius:12px;
+}
+
+.heart{
+position:fixed;
+top:-20px;
+color:red;
+animation:fall 3s linear infinite;
+}
+
+@keyframes fall{
+0%{transform:translateY(0);}
+100%{transform:translateY(110vh);}
+}
+</style>
+</head>
+
+<body>
+
+<!-- Q1 -->
+<div class="screen active" id="screen1">
+<h2>kya tum mujhse pyar krti ho?</h2>
+<button class="option" onclick="goNext(2)">Yes</button>
+<button class="option" onclick="goNext(2)">haa</button>
+<button class="option" onclick="goNext(2)">jii</button>
+<button class="option" onclick="goNext(2)">bilkul</button>
+</div>
+
+<!-- Q2 -->
+<div class="screen" id="screen2">
+<h2>Babu 5 photo bhej dena 😁</h2>
+<button class="option" onclick="goNext(3)">yes ❤️‍🔥</button>
+<button class="noBtn" id="noBtn">no🥺</button>
+</div>
+
+<!-- Q3 -->
+<div class="screen" id="screen3">
+<h2>apko kya psnd hai?</h2>
+<button class="option" onclick="goNext(4)">Chocolate</button>
+<button class="option" onclick="goNext(4)">earing</button>
+<button class="option" onclick="goNext(4)">bangles</button>
+<button class="option" onclick="goNext(4)">kapda</button>
+</div>
+
+<!-- Q4 -->
+<div class="screen" id="screen4">
+<h2>chlo chlte hai 😁💦</h2>
+<button class="option" onclick="showMemories()">yes</button>
+<button class="option" onclick="showMemories()">haa</button>
+<button class="option" onclick="showMemories()">jii</button>
+<button class="option" onclick="showMemories()">ekdum</button>
+</div>
+
+<!-- Memories -->
+<div class="screen" id="memories">
+<h2>Our Memories ❤️</h2>
+
+<img src="https://picsum.photos/400/300?1">
+<img src="https://picsum.photos/400/300?2">
+<img src="https://picsum.photos/400/300?3">
+<img src="https://picsum.photos/400/300?4">
+<img src="https://picsum.photos/400/300?5">
+<img src="https://picsum.photos/400/300?6">
+<img src="https://picsum.photos/400/300?7">
+<img src="https://picsum.photos/400/300?8">
+<img src="https://picsum.photos/400/300?9">
+<img src="https://picsum.photos/400/300?10">
+
+<h3 id="loveText"></h3>
+</div>
+
+<script>
+
+function goNext(num){
+let current=document.querySelector(".screen.active");
+current.classList.remove("active");
+document.getElementById("screen"+num).classList.add("active");
+}
+
+function showMemories(){
+let current=document.querySelector(".screen.active");
+current.classList.remove("active");
+document.getElementById("memories").classList.add("active");
+typeWriter();
+heartRain();
+}
+
+function typeWriter(){
+let text="You Are My Forever ❤️‍🔥";
+let i=0;
+let speed=80;
+let target=document.getElementById("loveText");
+target.innerHTML="";
+function typing(){
+if(i<text.length){
+target.innerHTML+=text.charAt(i);
+i++;
+setTimeout(typing,speed);
+}
+}
+typing();
+}
+
+function heartRain(){
+setInterval(()=>{
+let heart=document.createElement("div");
+heart.className="heart";
+heart.innerHTML="❤️";
+heart.style.left=Math.random()*100+"vw";
+heart.style.fontSize=Math.random()*20+20+"px";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),3000);
+},300);
+}
+
+/* ONLY NO BUTTON MOVES */
+const no=document.getElementById("noBtn");
+no.addEventListener("mouseover",()=>{
+no.style.left=Math.random()*80+"%";
+no.style.top=Math.random()*80+"%";
+});
+
+</script>
+
+</body>
+</html>
