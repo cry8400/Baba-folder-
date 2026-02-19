@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Forever ❤️‍🔥</title>
+
+<style>
+body{
+  margin:0;
+  font-family:sans-serif;
+  background:#0f0f1a;
+  color:white;
+  text-align:center;
+  overflow:hidden;
+}
+
+/* SECTION FADE */
+.section{
+  position:absolute;
+  width:100%;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+  opacity:0;
+  transform:translateY(20px);
+  transition:0.6s ease;
+}
+
+.section.active{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* BUTTONS */
+button{
+  padding:10px 18px;
+  margin:8px;
+  border:none;
+  border-radius:20px;
+  font-size:15px;
+  cursor:pointer;
+}
+
+.option{
+  background:transparent;
+  border:1px solid pink;
+  color:white;
+}
+
+.option.active{
+  background:pink;
+  color:black;
+}
+
+.yesBtn{background:#ff4d6d;color:white;}
+.noBtn{background:gray;color:white;position:relative;}
+
+.typewriter{
+  width:90%;
+  margin:15px auto;
+  white-space:pre-wrap;
+  border-right:2px solid pink;
+  overflow:hidden;
+}
+
+/* SLIDER */
+.slider{
+  display:flex;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  width:100%;
+}
+
+.slide{
+  min-width:80%;
+  margin:0 10%;
+  scroll-snap-align:center;
+}
+
+.slide img{
+  width:100%;
+  height:300px;
+  object-fit:cover;
+  border-radius:15px;
+}
+
+/* YES POPUP */
+#yesPopup{
+  display:none;
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(0,0,0,0.9);
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  z-index:999;
+}
+
+@keyframes popRing{
+  0%{transform:scale(0);}
+  70%{transform:scale(1.4);}
+  100%{transform:scale(1);}
+}
+</style>
+</head>
+<body>
+
+<!-- START -->
+<div class="section active" id="screen1">
+<h1>For My Forever ❤️‍🔥</h1>
+<h2>Murgi 🐥</h2>
+<button onclick="next(2)">Start ❤️</button>
+</div>
+
+<!-- Q1 -->
+<div class="section" id="screen2">
+<h2>kya tum mujhse pyar krti ho? 💕</h2>
+<button class="option">Yes</button>
+<button class="option">haa</button>
+<button class="option">jii</button>
+<button class="option">bilkul</button>
+<br>
+<button onclick="next(3)">Next ➜</button>
+</div>
+
+<!-- Q2 -->
+<div class="section" id="screen3">
+<h2>Babu 5 photo bhej dena 😁</h2>
+<button class="option">yes ❤️‍🔥</button>
+<button class="option">no 🥺</button>
+<br>
+<button onclick="next(4)">Next ➜</button>
+</div>
+
+<!-- Q3 -->
+<div class="section" id="screen4">
+<h2>apko kya psnd hai? 😍</h2>
+<button class="option">Chocolate</button>
+<button class="option">earing</button>
+<button class="option">bangles</button>
+<button class="option">kapda</button>
+<br>
+<button onclick="next(5)">Next ➜</button>
+</div>
+
+<!-- Q4 -->
+<div class="section" id="screen5">
+<h2>chlo chlte hai 😁💦</h2>
+<button class="option">yes</button>
+<button class="option">haa</button>
+<button class="option">jii</button>
+<button class="option">ekdum</button>
+<br>
+<button onclick="next(6)">Final ❤️</button>
+</div>
+
+<!-- FINAL -->
+<div class="section" id="screen6" style="overflow:auto; position:absolute;">
+
+<h2>Our Love Story ❤️</h2>
+<div class="typewriter" id="typeText"></div>
+
+<h2>Our Memories 💖</h2>
+<div class="slider">
+  <div class="slide"><img src="photo1.jpg"></div>
+  <div class="slide"><img src="photo2.jpg"></div>
+  <div class="slide"><img src="photo3.jpg"></div>
+  <div class="slide"><img src="photo4.jpg"></div>
+  <div class="slide"><img src="photo5.jpg"></div>
+  <div class="slide"><img src="photo6.jpg"></div>
+  <div class="slide"><img src="photo7.jpg"></div>
+  <div class="slide"><img src="photo8.jpg"></div>
+  <div class="slide"><img src="photo9.jpg"></div>
+  <div class="slide"><img src="photo10.jpg"></div>
+</div>
+
+<h2>Will You Be My Wife? 💍</h2>
+<button class="yesBtn">Yes ❤️</button>
+<button class="noBtn" id="noBtn">No 😭</button>
+
+</div>
+
+<!-- YES POPUP -->
+<div id="yesPopup">
+<h1>She Said YES ❤️💍</h1>
+<div style="font-size:70px;animation:popRing 1s ease;">💍</div>
+</div>
+
+<audio id="bgMusic" src="song.mp3" loop></audio>
+
+<script>
+
+/* SCREEN SWITCH */
+function next(num){
+  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+  document.getElementById("screen"+num).classList.add("active");
+}
+
+/* OPTION HIGHLIGHT */
+document.querySelectorAll(".option").forEach(btn=>{
+  btn.addEventListener("click",function(){
+    let parent=this.parentElement;
+    parent.querySelectorAll(".option").forEach(o=>o.classList.remove("active"));
+    this.classList.add("active");
+  });
+});
+
+/* TYPEWRITER */
+const text=`My love, in a world of billions, my heart chose you.
+I didn’t believe in soulmates until the day I met you.
+You have seen my worst and gave me your best.
+Thank you for being my anchor and sunshine.
+I promise to love you more today than yesterday, and more tomorrow.`;
+
+let i=0;
+function typing(){
+  if(i<text.length){
+    document.getElementById("typeText").innerHTML+=text.charAt(i);
+    i++;
+    setTimeout(typing,40);
+  }
+}
+typing();
+
+/* MUSIC FIRST TAP */
+document.body.addEventListener("click",()=>{
+  document.getElementById("bgMusic").play();
+},{once:true});
+
+/* NO BUTTON RUN */
+const noBtn=document.getElementById("noBtn");
+function moveNo(){
+  const x=Math.random()*(window.innerWidth-100);
+  const y=Math.random()*(window.innerHeight-50);
+  noBtn.style.position="fixed";
+  noBtn.style.left=x+"px";
+  noBtn.style.top=y+"px";
+}
+noBtn.addEventListener("touchstart",moveNo);
+noBtn.addEventListener("mouseover",moveNo);
+
+/* HEART RAIN */
+setInterval(()=>{
+  const heart=document.createElement("div");
+  heart.innerHTML="💖";
+  heart.style.position="fixed";
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.top="-10px";
+  heart.style.fontSize="18px";
+  heart.style.animation="fall 3s linear";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),3000);
+},400);
+
+const style=document.createElement("style");
+style.innerHTML=`@keyframes fall{to{transform:translateY(100vh);opacity:0;}}`;
+document.head.appendChild(style);
+
+/* YES CLICK EFFECT */
+const yesBtn=document.querySelector(".yesBtn");
+const popup=document.getElementById("yesPopup");
+
+yesBtn.addEventListener("click",function(){
+
+  popup.style.display="flex";
+
+  for(let i=0;i<40;i++){
+    let fire=document.createElement("div");
+    fire.innerHTML="🎆";
+    fire.style.position="fixed";
+    fire.style.left=Math.random()*100+"vw";
+    fire.style.top=Math.random()*100+"vh";
+    fire.style.fontSize="25px";
+    document.body.appendChild(fire);
+    setTimeout(()=>fire.remove(),1500);
+  }
+
+});
+
+</script>
+
+</body>
+</html>
