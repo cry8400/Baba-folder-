@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Love Game ❤️</title>
+<style>
+body {
+  margin: 0;
+  overflow: hidden;
+  background: skyblue;
+}
+
+canvas {
+  display: block;
+}
+
+#score {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 30px;
+  color: white;
+  font-weight: bold;
+}
+</style>
+</head>
+<body>
+
+<div id="score">0</div>
+<canvas id="game"></canvas>
+
+<script>
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let score = 0;
+let gravity = 0.6;
+let velocity = 0;
+
+let birdImg = new Image();
+birdImg.src = "gf.png"; // 🔥 Yaha GF ki photo ka naam daalo
+
+let bird = {
+  x: 100,
+  y: 150,
+  width: 60,
+  height: 60
+};
+
+let pipes = [];
+
+function createPipe() {
+  let gap = 160;
+  let topHeight = Math.random() * (canvas.height - gap - 100) + 50;
+
+  pipes.push({
+    x: canvas.width,
+    width: 70,
+    top: topHeight,
+    bottom: canvas.height - topHeight - gap
+  });
+}
+
+function drawPipes() {
+  ctx.fillStyle = "green";
+  pipes.forEach(pipe => {
+    ctx.fillRect(pipe.x, 0, pipe.width, pipe.top);
+    ctx.fillRect(pipe.x, canvas.height - pipe.bottom, pipe.width, pipe.bottom);
+  });
+}
+
+function updatePipes() {
+  pipes.forEach(pipe => {
+    pipe.x -= 3;
+
+    if (pipe.x + pipe.width < 0) {
+      pipes.shift();
+      score++;
+      document.getElementById("score").innerText = score;
+    }
+  });
+}
+
+function detectCollision(pipe) {
+  if (
+    bird.x < pipe.x + pipe.width &&
+    bird.x + bird.width > pipe.x &&
+    (bird.y < pipe.top ||
+     bird.y + bird.height > canvas.height - pipe.bottom)
+  ) {
+    location.reload();
+  }
+}
+
+function update() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  velocity += gravity;
+  bird.y += velocity;
+
+  if (bird.y + bird.height > canvas.height) {
+    location.reload();
+  }
+
+  ctx.drawImage(birdImg, bird.x, bird.y, bird.width, bird.height);
+
+  drawPipes();
+  updatePipes();
+
+  pipes.forEach(pipe => detectCollision(pipe));
+
+  requestAnimationFrame(update);
+}
+
+setInterval(createPipe, 2000);
+
+document.addEventListener("click", () => {
+  velocity = -10;
+
+  // 🔊 Yaha tum jump sound add kar sakte ho
+  // let sound = new Audio("jump.mp3");
+  // sound.play();
+});
+
+update();
+</script>
+
+</body>
+</html>
