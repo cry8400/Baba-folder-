@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Forever ❤️‍🔥</title>
+
+<style>
+body{
+margin:0;
+background:#0f0f0f;
+color:white;
+font-family:sans-serif;
+text-align:center;
+overflow:hidden;
+}
+
+.section{
+display:none;
+padding:30px;
+}
+
+.active{
+display:block;
+animation:fade 0.6s;
+}
+
+@keyframes fade{
+from{opacity:0;transform:translateY(20px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+button{
+padding:12px 20px;
+margin:10px;
+border:none;
+border-radius:20px;
+font-size:16px;
+cursor:pointer;
+}
+
+.option{
+background:#222;
+color:white;
+}
+
+.option.selected{
+background:#ff2e63;
+}
+
+.yesBtn{
+background:#00c853;
+color:white;
+}
+
+.noBtn{
+background:#ff1744;
+color:white;
+position:relative;
+}
+
+.memories img{
+width:90%;
+border-radius:15px;
+margin:10px 0;
+}
+
+.type{
+font-size:20px;
+min-height:40px;
+}
+
+.heart{
+position:fixed;
+color:red;
+animation:fall 3s linear infinite;
+}
+
+@keyframes fall{
+0%{top:-10%;}
+100%{top:110%;}
+}
+</style>
+</head>
+
+<body>
+
+<audio autoplay loop>
+<source src="https://www.w3schools.com/html/horse.mp3">
+</audio>
+
+<div class="section active" id="q1">
+<h2>kya tum mujhse pyar krti ho?</h2>
+<button class="option" onclick="next(2,this)">Yes</button>
+<button class="option" onclick="next(2,this)">haa</button>
+<button class="option" onclick="next(2,this)">jii</button>
+<button class="option" onclick="next(2,this)">bilkul</button>
+</div>
+
+<div class="section" id="q2">
+<h2>Babu 5 photo bhej dena 😁</h2>
+<button class="option" onclick="next(3,this)">yes ❤️‍🔥</button>
+<button class="noBtn" onmouseover="moveNo(this)">no🥺</button>
+</div>
+
+<div class="section" id="q3">
+<h2>apko kya psnd hai</h2>
+<button class="option" onclick="next(4,this)">Chocolate</button>
+<button class="option" onclick="next(4,this)">earing</button>
+<button class="option" onclick="next(4,this)">bangles</button>
+<button class="option" onclick="next(4,this)">kapda</button>
+</div>
+
+<div class="section" id="q4">
+<h2>chlo chlte hai 😁💦</h2>
+<button class="option" onclick="showMemories(this)">yes</button>
+<button class="option" onclick="showMemories(this)">haa</button>
+<button class="option" onclick="showMemories(this)">jii</button>
+<button class="option" onclick="showMemories(this)">ekdum</button>
+</div>
+
+<div class="section memories" id="memories">
+<h2>Our Memories ❤️</h2>
+
+<img src="https://picsum.photos/400/300?1">
+<img src="https://picsum.photos/400/300?2">
+<img src="https://picsum.photos/400/300?3">
+<img src="https://picsum.photos/400/300?4">
+<img src="https://picsum.photos/400/300?5">
+<img src="https://picsum.photos/400/300?6">
+<img src="https://picsum.photos/400/300?7">
+<img src="https://picsum.photos/400/300?8">
+<img src="https://picsum.photos/400/300?9">
+<img src="https://picsum.photos/400/300?10">
+
+<div class="type" id="loveText"></div>
+</div>
+
+<script>
+
+function next(num,btn){
+btn.classList.add("selected");
+setTimeout(()=>{
+document.querySelector(".active").classList.remove("active");
+document.getElementById("q"+num).classList.add("active");
+},500);
+}
+
+function moveNo(btn){
+btn.style.position="absolute";
+btn.style.left=Math.random()*80+"%";
+btn.style.top=Math.random()*80+"%";
+}
+
+function showMemories(btn){
+btn.classList.add("selected");
+setTimeout(()=>{
+document.querySelector(".active").classList.remove("active");
+document.getElementById("memories").classList.add("active");
+typeWriter();
+heartRain();
+},600);
+}
+
+function typeWriter(){
+let text="You are My Forever ❤️‍🔥";
+let i=0;
+let speed=80;
+function typing(){
+if(i<text.length){
+document.getElementById("loveText").innerHTML+=text.charAt(i);
+i++;
+setTimeout(typing,speed);
+}
+}
+typing();
+}
+
+function heartRain(){
+setInterval(()=>{
+let heart=document.createElement("div");
+heart.className="heart";
+heart.innerHTML="❤️";
+heart.style.left=Math.random()*100+"%";
+heart.style.fontSize=Math.random()*20+20+"px";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),3000);
+},300);
+}
+
+</script>
+
+</body>
+  </html>
