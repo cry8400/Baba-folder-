@@ -63,11 +63,13 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 window.login = function(){
-signInWithEmailAndPassword(auth,email.value,password.value)
-.then(()=>{
-window.location.href="admin.html";
-})
-.catch(err=>alert(err.message));
+  signInWithEmailAndPassword(auth,email.value,password.value)
+  .then(()=>{
+    window.location.href="admin.html";
+  })
+  .catch(()=>{
+    alert("Wrong Email or Password");
+  });
 }
 </script>
 
