@@ -189,11 +189,13 @@ function renderData(data, searchValue=""){
 }
 searchInput.addEventListener("input",function(){
   const value=this.value.toLowerCase();
+
   const filtered=allData.filter(item=>{
     if(item.company.toLowerCase().includes(value)) return true;
     return item.models.some(m=>m.name.toLowerCase().includes(value));
   });
-  renderData(filtered);
+
+  renderData(filtered,value);
 });
 
 loadData();
