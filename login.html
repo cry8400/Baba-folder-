@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+background:#111;
+color:white;
+font-family:Arial;
+}
+.box{
+background:#1e1e1e;
+padding:30px;
+border-radius:10px;
+width:300px;
+}
+input{
+width:100%;
+padding:10px;
+margin:10px 0;
+border:none;
+border-radius:6px;
+}
+button{
+width:100%;
+padding:10px;
+background:#27ae60;
+border:none;
+color:white;
+border-radius:6px;
+cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="box">
+<h2>Admin Login</h2>
+<input type="email" id="email" placeholder="Email">
+<input type="password" id="password" placeholder="Password">
+<button onclick="login()">Login</button>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const firebaseConfig = {
+ apiKey: "AIzaSyBUals9JsemB1NZk9byCaQyx-IESPTCnuU",
+ authDomain: "baba-folder.firebaseapp.com",
+ projectId: "baba-folder",
+ storageBucket: "baba-folder.firebasestorage.app",
+ messagingSenderId: "641161753750",
+ appId: "1:641161753750:web:d80be1d6affbae5ffffeb7"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+window.login = function(){
+signInWithEmailAndPassword(auth,email.value,password.value)
+.then(()=>{
+window.location.href="admin.html";
+})
+.catch(err=>alert(err.message));
+}
+</script>
+
+</body>
+</html>
