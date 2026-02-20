@@ -152,15 +152,28 @@ async function loadData(){
   renderData(allData);
 }
 
-function renderData(data){
+function renderData(data, searchValue=""){
   let html="";
+
   data.forEach(item=>{
+
+    let modelsToShow = item.models;
+
+    if(searchValue){
+      modelsToShow = item.models.filter(m =>
+        m.name.toLowerCase().includes(searchValue)
+      );
+    }
+
+    if(modelsToShow.length === 0) return;
+
     html+=`
     <div class="company">
-      <div class="company-header">${item.company}</div>
-      <div class="company-content">
+      <div class="company-header active">${item.company}</div>
+      <div class="company-content" style="max-height:1000px;">
     `;
-    item.models.forEach(model=>{
+
+    modelsToShow.forEach(model=>{
       html+=`
       <div class="model">
         <span>${model.name}</span>
@@ -168,11 +181,12 @@ function renderData(data){
       </div>
       `;
     });
+
     html+=`</div></div>`;
   });
-  container.innerHTML=html;
-}
 
+  container.innerHTML = html;
+}
 searchInput.addEventListener("input",function(){
   const value=this.value.toLowerCase();
   const filtered=allData.filter(item=>{
