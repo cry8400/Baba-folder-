@@ -56,15 +56,17 @@
 
     // 🔐 Check Login
     onAuthStateChanged(auth, (user) => {
-      if (user) {
-        document.getElementById("loginBox").style.display = "none";
-        document.getElementById("adminPanel").style.display = "block";
-        loadData();
-      } else {
-        document.getElementById("loginBox").style.display = "block";
-        document.getElementById("adminPanel").style.display = "none";
-      }
-    });
+  const adminEmail = "gc4raven1@gmail.com";
+
+  if (user && user.email === adminEmail) {
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("adminPanel").style.display = "block";
+    loadData();
+  } else {
+    document.getElementById("loginBox").style.display = "block";
+    document.getElementById("adminPanel").style.display = "none";
+  }
+});
 
     function loadData() {
       onSnapshot(companiesRef, (snapshot) => {
