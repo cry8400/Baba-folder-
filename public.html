@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Public Website</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{font-family:sans-serif;padding:15px;background:#f1f5f9;}
+.card{
+  background:white;
+  padding:15px;
+  margin:10px 0;
+  border-radius:10px;
+  box-shadow:0 2px 5px rgba(0,0,0,.2);
+}
+</style>
+</head>
+<body>
+
+<h2>Companies</h2>
+<div id="list"></div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, onSnapshot } 
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBUals9JsemB1NZk9byCaQyx-IESPTCnuU",
+  authDomain: "baba-folder.firebaseapp.com",
+  projectId: "baba-folder",
+  storageBucket: "baba-folder.firebasestorage.app",
+  messagingSenderId: "641161753750",
+  appId: "1:641161753750:web:d80be1d6affbae5ffffeb7"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+onSnapshot(collection(db,"companies"),(snapshot)=>{
+  list.innerHTML="";
+  snapshot.forEach(doc=>{
+    let data = doc.data();
+    let card = document.createElement("div");
+    card.className="card";
+    card.innerHTML = `
+      <h3>${data.name}</h3>
+      <ul>
+      ${data.models.map(m=>`<li>${m}</li>`).join("")}
+      </ul>
+    `;
+    list.appendChild(card);
+  });
+});
+
+</script>
+</body>
+</html>
