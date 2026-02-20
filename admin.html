@@ -124,16 +124,36 @@
       await updateDoc(ref, { models: data.models });
     };
 
-    window.editPrice = async function (id, index) {
-      const newPrice = prompt("New Price:");
+    window.addModelField = function (id) {
+  const container = document.getElementById("models-" + id);
+  container.innerHTML += `
+    <p>
+      <input placeholder="Model Name">
+      ₹ <input placeholder="Price">
+    </p>
+  `;
+};
 
-      const ref = doc(db, "companies", id);
-      const snap = await getDoc(ref);
-      let data = snap.data();
+window.saveModels = async function (id) {
+  const container = document.getElementById("models-" + id);
+  const inputs = container.querySelectorAll("input");
 
-      data.models[index].price = newPrice;
-      await updateDoc(ref, { models: data.models });
-    };
+  let models = [];
+
+  for (let i = 0; i < inputs.length; i += 2) {
+    const name = inputs[i].value;
+    const price = inputs[i + 1].value;
+
+    if (name && price) {
+      models.push({ name, price });
+    }
+  }
+
+  const ref = doc(db, "companies", id);
+  await updateDoc(ref, { models });
+
+  alert("Saved Successfully ✅");
+};
   </script>
 
   <style>
