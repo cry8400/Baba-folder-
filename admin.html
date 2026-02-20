@@ -81,15 +81,9 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-onAuthStateChanged(auth,(user)=>{
-  if(!user){
-    window.location.href="login.html";
-  } else {
-    if(user.email !== "gc4raven1@gmail.com){
-      alert("Access Denied");
-      signOut(auth);
-      window.location.href="login.html";
-    }
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "login.html";
   }
 });
 
