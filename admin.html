@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Panel</title>
+<style>
+body{
+  font-family: Arial;
+  background:#f4f4f4;
+  padding:20px;
+}
+h1{
+  text-align:center;
+}
+input,button{
+  padding:8px;
+  margin:5px 0;
+}
+button{
+  cursor:pointer;
+}
+.card{
+  background:white;
+  padding:15px;
+  margin:10px 0;
+  border-radius:8px;
+  box-shadow:0 2px 5px rgba(0,0,0,0.2);
+}
+.model{
+  background:#eee;
+  padding:8px;
+  margin:5px 0;
+  border-radius:5px;
+}
+.delete{
+  background:red;
+  color:white;
+  border:none;
+  padding:5px 8px;
+}
+.add{
+  background:green;
+  color:white;
+  border:none;
+  padding:5px 8px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Admin Panel</h1>
+
+<h3>Add Company</h3>
+<input type="text" id="companyInput" placeholder="Company Name">
+<button onclick="addCompany()">Add Company</button>
+
+<div id="companyList"></div>
+
+<script>
+let companies = {};
+
+function addCompany(){
+  let name = document.getElementById("companyInput").value;
+  if(!name) return alert("Enter company name");
+  
+  if(companies[name]){
+    alert("Company already exists");
+    return;
+  }
+
+  companies[name] = [];
+  document.getElementById("companyInput").value="";
+  render();
+}
+
+function deleteCompany(name){
+  delete companies[name];
+  render();
+}
+
+function addModel(company){
+  let model = prompt("Enter model name");
+  if(!model) return;
+  companies[company].push(model);
+  render();
+}
+
+function deleteModel(company,index){
+  companies[company].splice(index,1);
+  render();
+}
+
+function render(){
+  let list = document.getElementById("companyList");
+  list.innerHTML = "";
+
+  for(let company in companies){
+    let card = document.createElement("div");
+    card.className="card";
+
+    let html = `
+      <h3>${company}</h3>
+      <button class="add" onclick="addModel('${company}')">Add Model</button>
+      <button class="delete" onclick="deleteCompany('${company}')">Delete Company</button>
+      <div>
+    `;
+
+    companies[company].forEach((model,index)=>{
+      html += `
+        <div class="model">
+          ${model}
+          <button class="delete" onclick="deleteModel('${company}',${index})">X</button>
+        </div>
+      `;
+    });
+
+    html += `</div>`;
+    card.innerHTML = html;
+    list.appendChild(card);
+  }
+}
+</script>
+
+</body>
+</html>
