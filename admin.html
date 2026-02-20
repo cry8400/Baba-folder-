@@ -1,28 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Panel</title>
 
 <style>
-body{font-family:Arial;background:#f4f6f9;margin:0}
+body{font-family:Arial;margin:0;background:#f2f4f8}
 header{background:black;color:white;padding:15px;text-align:center;font-size:20px}
-.container{max-width:900px;margin:20px auto;padding:15px}
-input{padding:10px;margin:6px 0;border-radius:6px;border:1px solid #ccc;width:100%}
-button{padding:6px 12px;border:none;border-radius:6px;cursor:pointer;margin:3px;font-size:13px}
+.container{max-width:800px;margin:20px auto;padding:15px}
+input{width:100%;padding:10px;margin:6px 0;border-radius:6px;border:1px solid #ccc}
+button{padding:6px 12px;border:none;border-radius:6px;margin:4px;cursor:pointer}
 .btn-black{background:black;color:white}
-.btn-red{background:#e74c3c;color:white}
 .btn-green{background:#27ae60;color:white}
 .btn-blue{background:#3498db;color:white}
-.companyCard{background:white;padding:15px;margin:15px 0;border-radius:10px;box-shadow:0 4px 10px rgba(0,0,0,0.08)}
-.modelRow{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #eee}
-.popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
-background:white;padding:20px;border-radius:10px;box-shadow:0 5px 20px rgba(0,0,0,0.2);
-display:none;width:300px;z-index:1000}
-.overlay{position:fixed;width:100%;height:100%;background:rgba(0,0,0,0.4);
-display:none;z-index:999}
-h3{margin:5px 0}
+.btn-red{background:#e74c3c;color:white}
+.card{background:white;padding:15px;margin:12px 0;border-radius:10px;
+box-shadow:0 4px 10px rgba(0,0,0,0.08);cursor:pointer}
+.hidden{display:none}
+.modelRow{display:flex;justify-content:space-between;align-items:center;
+border-bottom:1px solid #eee;padding:6px 0}
 </style>
 </head>
 <body>
@@ -38,7 +34,6 @@ h3{margin:5px 0}
 </div>
 
 <div id="adminDiv" style="display:none;">
-<input type="text" id="searchBox" placeholder="Search..." oninput="searchFilter()">
 
 <input type="text" id="newCompany" placeholder="New Company Name">
 <button class="btn-green" onclick="addCompany()">Add Company</button>
@@ -48,16 +43,6 @@ h3{margin:5px 0}
 <button class="btn-red" onclick="logout()">Logout</button>
 </div>
 
-</div>
-
-<div class="overlay" id="overlay"></div>
-
-<div class="popup" id="popup">
-<h3 id="popupTitle">Edit</h3>
-<input type="text" id="modelName">
-<input type="number" id="modelPrice">
-<button class="btn-blue" onclick="savePopup()">Save</button>
-<button class="btn-red" onclick="closePopup()">Cancel</button>
 </div>
 
 <script type="module">
@@ -77,10 +62,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-
-let currentCompany="";
-let currentModel="";
-let mode="";
 
 window.login=()=>signInWithEmailAndPassword(auth,email.value,password.value)
 .catch(err=>alert(err.message));
@@ -102,13 +83,88 @@ function loadCompanies(){
 onSnapshot(collection(db,"companies"),snapshot=>{
 companyList.innerHTML="";
 snapshot.forEach(docSnap=>{
-const data=docSnap.data();
 const companyName=docSnap.id;
+const data=docSnap.data();
 
 const card=document.createElement("div");
-card.className="companyCard";
+card.className="card";
+card.innerHTML=`<h3>${companyName}</h3>`;
 
-card.innerHTML=`
+const content=document.createElement("div");
+content.classList.add("hidden");
+
+content.innerHTML=`
+<input type="text" placeholder="Model Name" id="model-${companyName}">
+<input type="number" placeholder="Price" id="price-${companyName}">
+<button class="btn-green" onclick="addModel('${companyName}')">Add Model</button>
+<button class="btn-red" onclick="deleteCompany('${companyName}')">Delete Company</button>
+`;
+
+Object.keys(data).forEach(model=>{
+const row=document.createElement("div");
+row.className="modelRow";
+row.innerHTML=`
+<span>${model} - ₹${data[model]}</span>
+<div>
+<button class="btn-blue" onclick="editModel('${companyName}','${model}',${data[model]})">Edit</button>
+<button class="btn-red" onclick="deleteModel('${companyName}','${model}')">Delete</button>
+</div>
+`;
+content.appendChild(row);
+});
+
+card.onclick=()=>content.classList.toggle("hidden");
+
+card.appendChild(content);
+companyList.appendChild(card);
+});
+});
+}
+
+window.addCompany=async()=>{
+if(!newCompany.value) return;
+await setDoc(doc(db,"companies",newCompany.value),{});
+newCompany.value="";
+}
+
+window.deleteCompany=(name)=>deleteDoc(doc(db,"companies",name));
+
+window.addModel=async(company)=>{
+const name=document.getElementById("model-"+company).value;
+const price=document.getElementById("price-"+company).value;
+if(!name||!price) return;
+
+await setDoc(doc(db,"companies",company),{
+[name]:Number(price)
+},{merge:true});
+
+document.getElementById("model-"+company).value="";
+document.getElementById("price-"+company).value="";
+}
+
+window.deleteModel=(company,model)=>{
+setDoc(doc(db,"companies",company),{
+[model]:deleteField()
+},{merge:true});
+}
+
+window.editModel=async(company,model,price)=>{
+const newName=prompt("New Model Name:",model);
+const newPrice=prompt("New Price:",price);
+if(!newName||!newPrice) return;
+
+await setDoc(doc(db,"companies",company),{
+[model]:deleteField()
+},{merge:true});
+
+await setDoc(doc(db,"companies",company),{
+[newName]:Number(newPrice)
+},{merge:true});
+}
+</script>
+
+</body>
+</html>card.innerHTML=`
 <h3>${companyName}</h3>
 <button class="btn-green" onclick="openAddModel('${companyName}')">Add Model</button>
 <button class="btn-red" onclick="deleteCompany('${companyName}')">Delete Company</button>
